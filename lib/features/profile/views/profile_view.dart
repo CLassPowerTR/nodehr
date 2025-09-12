@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:nodehr/core/constants/app_text_styles.dart';
 import 'package:provider/provider.dart';
 import 'package:nodehr/core/constants/app_strings.dart';
 import 'package:nodehr/features/home/providers/favorites_provider.dart';
@@ -42,7 +43,11 @@ class _ProfileViewState extends State<ProfileView> {
         : favoritesProvider.likedMovies;
 
     return Scaffold(
-      appBar: AppBar(title: Text(AppStrings.profile)),
+      appBar: AppBar(
+        title: Text(AppStrings.profile),
+        centerTitle: true,
+        titleTextStyle: AppTextStyles.h1,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
