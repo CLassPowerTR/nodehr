@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Allow cleartext traffic for debug builds and localhost/emulator hosts. -->
+    <base-config cleartextTrafficPermitted="false" />
+
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- Emulator host for Android default emulator -->
+        <domain>10.0.2.2</domain>
+        <!-- Host machine LAN IPs can be added here if needed -->
+    </domain-config>
+
+    <!-- Allow cleartext for localhost when using HTTP on Android emulator -->
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+        <base-config cleartextTrafficPermitted="true" />
+    </debug-overrides>
+</network-security-config>

@@ -1,0 +1,13 @@
+{
+  "appName": "Shartflix",
+  "login": "Giriş Yap",
+  "register": "Kayıt Ol",
+  "email": "E-posta",
+  "password": "Şifre",
+  "home": "Keşfet",
+  "profile": "Profil",
+  "navBarHome": "Anasayfa",
+  "favorites": "Favoriler"
+  "or": "ya da"
+}
+
