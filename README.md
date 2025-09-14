@@ -63,7 +63,7 @@ Navigasyon `lib/core/routes/app_routes.dart` ve `lib/core/routes/app_router.dart
 - Görsel: Lottie yerine `Image.asset('assets/icons/AppIcon.png')` kullanılır.
 - Ekran Görüntüsü: (görseli buraya ekleyin)
 ```markdown
-![Screenshot_20250914_192849](https://github.com/user-attachments/assets/88a52794-9755-4280-9d3e-add6da01d2ab)
+![Screenshot_20250914_192849](https://github.com/user-attachments/assets/465310e9-8e8c-4e81-9bf9-dd68b525d4d1)
 ```
 
 ### Register (`/register`)
