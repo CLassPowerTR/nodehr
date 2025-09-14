@@ -54,7 +54,7 @@ Navigasyon `lib/core/routes/app_routes.dart` ve `lib/core/routes/app_router.dart
 - Görsel: Lottie yerine yerel `Image.asset('assets/icons/AppIcon.png')` kullanılır.
 - Ekran Görüntüsü: (görseli buraya ekleyin)
 ```markdown
-![Splash](docs/screenshots/splash.png)
+![Screenshot_20250914_192844](https://github.com/user-attachments/assets/4f17102a-1215-4c07-858c-751356d517bc)
 ```
 
 ### Login (`/login`)
@@ -71,7 +71,7 @@ Navigasyon `lib/core/routes/app_routes.dart` ve `lib/core/routes/app_router.dart
 - İçerik: İsim/E‑posta/Şifre alanları ve kayıt akışı.
 - Ekran Görüntüsü: (görseli buraya ekleyin)
 ```markdown
-![Register](docs/screenshots/register.png)
+![Screenshot_20250914_192852](https://github.com/user-attachments/assets/6ea04618-d4ba-4c3e-a0d3-c1cf75ebae81)
 ```
 
 ### Home (`/home` → `NavBarView` index 0)
@@ -80,7 +80,7 @@ Navigasyon `lib/core/routes/app_routes.dart` ve `lib/core/routes/app_router.dart
 - Favori: `FavoritesProvider.toggleLike(id)` ile iyimser güncelleme, bekleyen işlem overlay’i.
 - Ekran Görüntüsü: (görseli buraya ekleyin)
 ```markdown
-![Home](docs/screenshots/home.png)
+![Screenshot_20250914_192908](https://github.com/user-attachments/assets/bc6c2975-643b-4f6c-a865-b316524ad7a7)
 ```
 
 ### Profile (`/profile` → `NavBarView` index 1)
@@ -89,9 +89,7 @@ Navigasyon `lib/core/routes/app_routes.dart` ve `lib/core/routes/app_router.dart
 - Favoriler: `ApiService.getFavoriteMovies()` artık `List<dynamic>` döner; `ProfileView` bu ham listeyi `List<MovieModel>`’e dönüştürüp (`MovieModel.fromJson`) `_favorites` olarak kullanır. UI’da render, poster URL listesi ile yapılır (tip hatalarına dayanıklı).
 - Fotoğraf Alanı: Profil ekranında yer alan “Galeriden” ve “Kamera” butonları ile fotoğraf seçimi/yüklenmesi yapılır.
 - Ekran Görüntüsü (foto yükleme alanı dahil):
-```markdown
-![Profile](docs/screenshots/profile.png)
-```
+
 
 ### Alt Gezinme (NavBar)
 - Dosya: `lib/features/nav_bar/views/nav_bar_view.dart`
@@ -101,7 +99,7 @@ Navigasyon `lib/core/routes/app_routes.dart` ve `lib/core/routes/app_router.dart
   - `assets/animations/page_flip_backward.json`
 - Ekran Görüntüsü (geçiş anı):
 ```markdown
-![NavBar Transition](docs/screenshots/navbar_transition.png)
+![Uploading Screenshot_20250914_194819.jpg…]()
 ```
 
 ## Animasyonlar (NavBar)
