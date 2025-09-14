@@ -6,7 +6,6 @@ import 'package:nodehr/core/api/config/api_config.dart';
 import 'package:nodehr/core/models/profile_model.dart';
 import 'package:nodehr/core/models/user_model.dart';
 import 'package:nodehr/core/models/movies_model.dart';
-import 'package:nodehr/core/models/favorites_movie_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
@@ -344,8 +343,9 @@ class ApiService {
     }
   }
 
-  /// Get favorite movies for the current user. Returns FavoritesMovieModel.
-  static Future<FavoritesMovieModel> getFavoriteMovies() async {
+  /// Get favorite movies for the current user.
+  /// Returns a normalized List<dynamic> of raw movie JSON objects.
+  static Future<List<dynamic>> getFavoriteMovies() async {
     if (config.favoritesMovieApiUrl.isEmpty) {
       throw Exception(
         'Favorites URL tanımlı değil. Lütfen konfigürasyonu kontrol edin.',
@@ -365,18 +365,46 @@ class ApiService {
             },
           )
           .timeout(const Duration(seconds: 20));
-
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        final decoded = json.decode(response.body);
+        final dynamic decoded = json.decode(response.body);
+        List<dynamic> movies = <dynamic>[];
+
         if (decoded is Map<String, dynamic>) {
-          return FavoritesMovieModel.fromJson(decoded);
+          final dynamic data = decoded['data'];
+
+          if (data is List) {
+            movies = List<dynamic>.from(data);
+          } else if (data is Map) {
+            final map = Map<String, dynamic>.from(data);
+            if (map.containsKey('movies')) {
+              final dynamic mf = map['movies'];
+              if (mf is List) {
+                movies = List<dynamic>.from(mf);
+              } else if (mf is Map) {
+                movies = List<dynamic>.from(
+                  Map<String, dynamic>.from(mf).values,
+                );
+              }
+            } else {
+              final hasMovieShape =
+                  map.containsKey('Title') ||
+                  map.containsKey('Poster') ||
+                  map.containsKey('_id') ||
+                  map.containsKey('id');
+              if (hasMovieShape) {
+                movies = <dynamic>[map];
+              } else {
+                movies = List<dynamic>.from(map.values);
+              }
+            }
+          }
         } else if (decoded is List) {
-          // Wrap raw list into expected envelope
-          final wrapped = {'response': null, 'data': decoded};
-          return FavoritesMovieModel.fromJson(wrapped);
+          movies = List<dynamic>.from(decoded);
         } else {
           throw Exception('Beklenmeyen yanıt formatı.');
         }
+        print(movies);
+        return movies;
       }
 
       if (response.statusCode == 401 || response.statusCode == 403) {

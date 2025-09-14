@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:nodehr/core/constants/app_paddings.dart';
 import 'package:nodehr/core/constants/app_radius.dart';
 import 'package:nodehr/core/constants/app_strings.dart';
@@ -17,13 +18,52 @@ class NavBarView extends StatefulWidget {
 
 class _NavBarViewState extends State<NavBarView> {
   late int _currentIndex = widget.initialIndex;
+  bool _isTransitioning = false;
+  String _transitionAsset = 'assets/animations/page_flip_forward.json';
 
   final List<Widget> _pages = const [HomeView(), ProfileView()];
+
+  Future<void> _onTabTap(int newIndex) async {
+    if (_currentIndex == newIndex || _isTransitioning) return;
+    // Geçiş yönüne göre animasyon dosyasını seç
+    _transitionAsset = newIndex > _currentIndex
+        ? 'assets/animations/page_flip_forward.json'
+        : 'assets/animations/page_flip_backward.json';
+    setState(() => _isTransitioning = true);
+    try {
+      // Kısa bir animasyon süresi boyunca geçiş efekti göster
+      await Future.delayed(const Duration(milliseconds: 700));
+      if (!mounted) return;
+      setState(() => _currentIndex = newIndex);
+    } finally {
+      if (!mounted) return;
+      setState(() => _isTransitioning = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(index: _currentIndex, children: _pages),
+      body: Stack(
+        children: [
+          IndexedStack(index: _currentIndex, children: _pages),
+          if (_isTransitioning)
+            Positioned.fill(
+              child: Container(
+                color: Colors.black.withOpacity(0.05),
+                alignment: Alignment.center,
+                child: SizedBox(
+                  height: 220,
+                  child: Lottie.asset(
+                    _transitionAsset,
+                    repeat: false,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
       bottomNavigationBar: SafeArea(
         bottom: true,
         child: Container(
@@ -33,7 +73,7 @@ class _NavBarViewState extends State<NavBarView> {
             children: [
               Expanded(
                 child: InkWell(
-                  onTap: () => setState(() => _currentIndex = 0),
+                  onTap: () => _onTabTap(0),
                   borderRadius: AppRadius.r12,
                   child: Container(
                     height: 48,
@@ -69,7 +109,7 @@ class _NavBarViewState extends State<NavBarView> {
               ),
               Expanded(
                 child: InkWell(
-                  onTap: () => setState(() => _currentIndex = 1),
+                  onTap: () => _onTabTap(1),
                   borderRadius: AppRadius.r12,
                   child: Container(
                     height: 48,

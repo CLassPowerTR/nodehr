@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+import 'package:nodehr/core/constants/app_paddings.dart';
 import 'package:nodehr/core/constants/app_strings.dart';
 import 'package:nodehr/core/constants/app_text_styles.dart';
 import 'package:nodehr/core/mixins/validators_mixin.dart';
@@ -57,14 +57,14 @@ class _LoginViewState extends State<LoginView> with ValidatorsMixin {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
+          padding: AppPaddings.all16,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             spacing: 12,
             children: [
               Center(child: SizedBox(height: 160, child: _buildLottie())),
-
+              SizedBox(height: MediaQuery.of(context).size.height * 0.05),
               Text(
                 AppStrings.login,
                 style: Theme.of(context).textTheme.titleLarge,
@@ -114,13 +114,9 @@ class _LoginViewState extends State<LoginView> with ValidatorsMixin {
   }
 
   Widget _buildLottie() {
-    // Try to load local lottie if exists; otherwise fallback to an icon
+    // Yerel PNG ikonunu göster; bulunamazsa bir ikon ile devam et
     try {
-      return Lottie.asset(
-        'assets/icons/AppIcon.png',
-        repeat: true,
-        fit: BoxFit.contain,
-      );
+      return Image.asset('assets/icons/AppIcon.png', fit: BoxFit.contain);
     } catch (_) {
       return const Icon(Icons.movie, size: 96);
     }

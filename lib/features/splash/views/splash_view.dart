@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:nodehr/core/api/services/api_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:nodehr/core/routes/app_routes.dart';
@@ -53,13 +52,9 @@ class _SplashViewState extends State<SplashView> {
   }
 
   Widget _buildLottie() {
-    // Try to load local lottie if exists; otherwise fallback to an icon
+    // Yerel PNG ikonunu göster; bulunamazsa bir ikon ile devam et
     try {
-      return Lottie.asset(
-        'assets/icons/AppIcon.png',
-        repeat: true,
-        fit: BoxFit.contain,
-      );
+      return Image.asset('assets/icons/AppIcon.png', fit: BoxFit.contain);
     } catch (_) {
       return const Icon(Icons.movie, size: 96);
     }

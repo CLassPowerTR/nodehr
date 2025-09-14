@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:nodehr/core/constants/app_paddings.dart';
 import 'package:nodehr/core/constants/app_text_styles.dart';
 import 'package:provider/provider.dart';
 import 'package:nodehr/core/constants/app_strings.dart';
@@ -24,6 +25,14 @@ class _ProfileViewState extends State<ProfileView> {
   bool _loading = false;
   String? _error;
 
+  String _sanitizeUrl(String url) {
+    var u = url.trim();
+    if (u.startsWith('http://')) {
+      u = u.replaceFirst('http://', 'https://');
+    }
+    return u;
+  }
+
   Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
     final result = await picker.pickImage(source: source, maxWidth: 1024);
@@ -35,12 +44,16 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     final favoritesProvider = context.watch<FavoritesProvider>();
-    // favorites can come from _favorites (MovieModel) or from the local
-    // FavoritesProvider (MovieItem). Use a dynamic list and resolve the
-    // poster field at runtime to avoid a static type of Object.
-    final List<dynamic> likedMovies = _favorites.isNotEmpty
+    // Favorileri tek tipe (poster URL listesi) dönüştürerek tip sorunlarını önle
+    final List<String> posterUrls = _favorites.isNotEmpty
         ? _favorites
-        : favoritesProvider.likedMovies;
+              .map((m) => m.poster)
+              .where((p) => p.isNotEmpty)
+              .toList(growable: false)
+        : favoritesProvider.likedMovies
+              .map((m) => m.posterUrl)
+              .where((p) => p.isNotEmpty)
+              .toList(growable: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -49,7 +62,7 @@ class _ProfileViewState extends State<ProfileView> {
         titleTextStyle: AppTextStyles.h1,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: AppPaddings.all16,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -74,7 +87,7 @@ class _ProfileViewState extends State<ProfileView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        _profile?.name ?? 'John Doe',
+                        _profile?.name ?? 'Batuhan',
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       const SizedBox(height: 8),
@@ -105,7 +118,13 @@ class _ProfileViewState extends State<ProfileView> {
             ),
             const SizedBox(height: 12),
             if (_loading) const Center(child: CircularProgressIndicator()),
-            if (_error != null) Center(child: Text(_error!)),
+            if (_error != null)
+              Builder(
+                builder: (context) {
+                  print(_error);
+                  return Center(child: Text(_error!));
+                },
+              ),
 
             if (!_loading && _error == null)
               GridView.builder(
@@ -117,19 +136,21 @@ class _ProfileViewState extends State<ProfileView> {
                   crossAxisSpacing: 8,
                   childAspectRatio: 0.66,
                 ),
-                itemCount: likedMovies.length,
+                itemCount: posterUrls.length,
                 itemBuilder: (context, index) {
-                  final movie = likedMovies[index];
-                  String posterUrl = '';
-                  if (movie is MovieModel) {
-                    posterUrl = movie.poster;
-                  } else if (movie is MovieItem) {
-                    posterUrl = movie.posterUrl;
-                  }
+                  final String posterUrl = posterUrls[index];
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: posterUrl.isNotEmpty
-                        ? Image.network(posterUrl, fit: BoxFit.cover)
+                        ? Image.network(
+                            _sanitizeUrl(posterUrl),
+                            fit: BoxFit.cover,
+                            errorBuilder: (ctx, err, st) => Container(
+                              color: Colors.grey[300],
+                              alignment: Alignment.center,
+                              child: const Icon(Icons.broken_image),
+                            ),
+                          )
                         : Container(color: Colors.grey[300]),
                   );
                 },
@@ -156,9 +177,12 @@ class _ProfileViewState extends State<ProfileView> {
       if (profiles.isNotEmpty) {
         _profile = profiles.first;
       }
-      final favs = await ApiService.getFavoriteMovies();
-      // FavoritesMovieModel contains a `movies` list parsed from the API's data array
-      _favorites = favs.movies;
+      final raw = await ApiService.getFavoriteMovies();
+      // raw List<dynamic> -> List<MovieModel>
+      _favorites = raw
+          .where((e) => e is Map)
+          .map((e) => MovieModel.fromJson(Map<String, dynamic>.from(e as Map)))
+          .toList(growable: false);
     } catch (e) {
       _error = e.toString();
     } finally {

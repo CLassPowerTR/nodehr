@@ -78,14 +78,10 @@ class _MovieCardState extends State<MovieCard> {
                   ? ClipRRect(
                       borderRadius: AppRadius.r24,
                       child: Image.network(
-                        m.poster,
+                        _sanitizeUrl(m.poster),
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) => Container(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onSurface.withOpacity(0.05),
-                          child: const Center(child: Icon(Icons.broken_image)),
-                        ),
+                        errorBuilder: (context, error, stackTrace) =>
+                            _errorPlaceholder(context),
                       ),
                     )
                   : Container(
@@ -147,4 +143,21 @@ class _MovieCardState extends State<MovieCard> {
       ),
     );
   }
+}
+
+String _sanitizeUrl(String url) {
+  var u = url.trim();
+  if (u.startsWith('http://')) {
+    // Bazı kaynaklar http döndürür; çoğu cihazda https gerekli olabilir
+    u = u.replaceFirst('http://', 'https://');
+  }
+  // Geçersiz @.. vb. karakterleri barındırıyorsa yine de döndür ama errorBuilder yakalar
+  return u;
+}
+
+Widget _errorPlaceholder(BuildContext context) {
+  return Container(
+    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.05),
+    child: const Center(child: Icon(Icons.broken_image)),
+  );
 }

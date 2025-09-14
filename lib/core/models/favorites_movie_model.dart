@@ -10,7 +10,7 @@ class FavoritesMovieModel {
     final resp = (json['response'] is Map)
         ? Map<String, dynamic>.from(json['response'])
         : null;
-    final data = json['data'];
+    final dynamic data = json['data'] ?? json; // fallback: top-level map
     List<MovieModel> movies = <MovieModel>[];
     try {
       if (data is List) {
@@ -21,15 +21,28 @@ class FavoritesMovieModel {
             )
             .toList();
       } else if (data is Map<String, dynamic>) {
-        // If data contains 'movies' as a list, use it
-        if (data.containsKey('movies') && data['movies'] is List) {
-          final list = List<dynamic>.from(data['movies']);
-          movies = list
-              .where((e) => e is Map)
-              .map(
-                (e) => MovieModel.fromJson(Map<String, dynamic>.from(e as Map)),
-              )
-              .toList();
+        // If data contains 'movies'
+        if (data.containsKey('movies')) {
+          final dynamic moviesField = data['movies'];
+          if (moviesField is List) {
+            final list = List<dynamic>.from(moviesField);
+            movies = list
+                .where((e) => e is Map)
+                .map(
+                  (e) =>
+                      MovieModel.fromJson(Map<String, dynamic>.from(e as Map)),
+                )
+                .toList();
+          } else if (moviesField is Map) {
+            final map = Map<String, dynamic>.from(moviesField);
+            movies = map.values
+                .where((e) => e is Map)
+                .map(
+                  (e) =>
+                      MovieModel.fromJson(Map<String, dynamic>.from(e as Map)),
+                )
+                .toList();
+          }
         } else {
           // If the map looks like a single movie object (has Title/Poster/_id), wrap it
           final looksLikeMovie =
