@@ -1,6 +1,6 @@
 {
-    "name": "nodehr",
-    "short_name": "nodehr",
+    "name": "my_randevu",
+    "short_name": "my_randevu",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

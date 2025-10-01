@@ -1,9 +1,6 @@
-enum AppImages {
-  placeholder('assets/images/placeholder.png');
+class AppImages {
+  AppImages._();
 
-  final String path;
-  const AppImages(this.path);
+  static const String logotype = 'assets/logo/logotayp_v1.png';
+  static const String myrandevulogo = 'assets/logo/myrandevulogo_v1.png';
 }
-
-
-

@@ -1,46 +1,176 @@
 import 'package:flutter/material.dart';
-import 'app_colors.dart';
+import 'package:flutter/widgets.dart';
+import 'package:my_randevu/core/constants/app_colors.dart';
 
-class AppTextStyles {
-  AppTextStyles._();
+class AppTextStyle {
+  AppTextStyle._();
 
-  static const TextStyle h1 = TextStyle(
-    fontSize: 24,
-    fontWeight: FontWeight.w700,
-    color: AppColors.textPrimary,
-  );
+  // Headers
+  static TextStyle header(BuildContext context, {Color? color}) {
+    final style = Theme.of(context).textTheme;
+    return style.headlineSmall!.copyWith(
+      fontWeight: FontWeight.w700,
+      color: color ?? AppColors.textColor(context),
+    );
+  }
 
-  static const TextStyle h2 = TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.w600,
-    color: AppColors.textPrimary,
-  );
+  static TextStyle headerPrimary(BuildContext context, {Color? color}) {
+    final style = Theme.of(context).textTheme;
+    return style.headlineSmall!.copyWith(
+      fontWeight: FontWeight.w700,
+      color: color ?? AppColors.primary(context),
+    );
+  }
 
-  static const TextStyle h3 = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w600,
-    color: AppColors.textPrimary,
-    fontFamily: 'Instrument Sans',
-  );
+  static TextStyle headerSecondary(BuildContext context, {Color? color}) {
+    final style = Theme.of(context).textTheme;
+    return style.headlineSmall!.copyWith(
+      fontWeight: FontWeight.w700,
+      color: color ?? AppColors.secondary(context),
+    );
+  }
 
-  static const TextStyle body1 = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    color: AppColors.textPrimary,
-    fontFamily: 'Instrument Sans',
-  );
+  // Titles
+  static TextStyle title(
+    BuildContext context, {
+    Color? color,
+    TextStyle? size,
+  }) {
+    final style = Theme.of(context).textTheme;
+    TextStyle baseStyle = size ?? style.titleMedium!;
+    return baseStyle.copyWith(color: color ?? AppColors.textColor(context));
+  }
 
-  static const TextStyle body = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    color: AppColors.textSecondary,
-    fontFamily: 'Instrument Sans',
-  );
+  static TextStyle titleBold(
+    BuildContext context, {
+    Color? color,
+    TextStyle? size,
+  }) {
+    final style = Theme.of(context).textTheme;
+    TextStyle baseStyle = size ?? style.titleMedium!;
+    return baseStyle.copyWith(
+      color: color ?? AppColors.textColor(context),
+      fontWeight: FontWeight.bold,
+    );
+  }
 
-  static const TextStyle navBarTextStyle = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w500,
-    color: AppColors.textPrimary,
-    fontFamily: 'Instrument Sans',
-  );
+  static TextStyle titleMuted(
+    BuildContext context, {
+    Color? color,
+    TextStyle? size,
+  }) {
+    final style = Theme.of(context).textTheme;
+    TextStyle baseStyle = size ?? style.titleMedium!;
+    return baseStyle.copyWith(color: color ?? AppColors.mutedColor(context));
+  }
+
+  // Subtitles
+  static TextStyle subtitle(
+    BuildContext context, {
+    Color? color,
+    TextStyle? size,
+  }) {
+    final style = Theme.of(context).textTheme;
+    TextStyle baseStyle = size ?? style.titleSmall!;
+    return baseStyle.copyWith(color: color ?? AppColors.textColor(context));
+  }
+
+  static TextStyle subtitleMuted(
+    BuildContext context, {
+    Color? color,
+    TextStyle? size,
+    FontWeight? weight,
+  }) {
+    final style = Theme.of(context).textTheme;
+    TextStyle baseStyle = size ?? style.titleSmall!;
+    return baseStyle.copyWith(
+      fontWeight: weight ?? FontWeight.w500,
+      color: color ?? AppColors.mutedColor(context),
+    );
+  }
+
+  static TextStyle subtitleBold(
+    BuildContext context, {
+    Color? color,
+    TextStyle? size,
+  }) {
+    final style = Theme.of(context).textTheme;
+    TextStyle baseStyle = size ?? style.titleSmall!;
+    return baseStyle.copyWith(
+      color: color ?? AppColors.textColor(context),
+      fontWeight: FontWeight.bold,
+    );
+  }
+
+  // Body
+  static TextStyle bodyMedium(BuildContext context, {Color? color}) {
+    final style = Theme.of(context).textTheme;
+    return style.bodyMedium!.copyWith(
+      color: color ?? AppColors.textColor(context),
+    );
+  }
+
+  static TextStyle bodyMediumBold(BuildContext context, {Color? color}) {
+    final style = Theme.of(context).textTheme;
+    return style.bodyMedium!.copyWith(
+      fontWeight: FontWeight.w700,
+      color: color ?? AppColors.textColor(context),
+    );
+  }
+
+  static TextStyle bodyMediumMuted(BuildContext context, {Color? color}) {
+    final style = Theme.of(context).textTheme;
+    return style.bodyMedium!.copyWith(
+      color: color ?? AppColors.mutedColor(context),
+      fontWeight: FontWeight.w400,
+    );
+  }
+
+  // Body
+  static TextStyle bodySmall(BuildContext context, {Color? color}) {
+    final style = Theme.of(context).textTheme;
+    return style.bodySmall!.copyWith(
+      color: color ?? AppColors.textColor(context),
+    );
+  }
+
+  static TextStyle bodySmallBold(BuildContext context, {Color? color}) {
+    final style = Theme.of(context).textTheme;
+    return style.bodySmall!.copyWith(
+      fontWeight: FontWeight.w700,
+      color: color ?? AppColors.textColor(context),
+    );
+  }
+
+  static TextStyle bodySmallMuted(BuildContext context, {Color? color}) {
+    final style = Theme.of(context).textTheme;
+    return style.bodySmall!.copyWith(
+      color: color ?? AppColors.mutedColor(context),
+      fontWeight: FontWeight.w400,
+    );
+  }
+
+  // Body
+  static TextStyle bodyLarge(BuildContext context, {Color? color}) {
+    final style = Theme.of(context).textTheme;
+    return style.bodyLarge!.copyWith(
+      color: color ?? AppColors.textColor(context),
+    );
+  }
+
+  static TextStyle bodyLargeBold(BuildContext context, {Color? color}) {
+    final style = Theme.of(context).textTheme;
+    return style.bodyLarge!.copyWith(
+      fontWeight: FontWeight.w700,
+      color: color ?? AppColors.textColor(context),
+    );
+  }
+
+  static TextStyle bodyLargeMuted(BuildContext context, {Color? color}) {
+    final style = Theme.of(context).textTheme;
+    return style.bodyLarge!.copyWith(
+      color: color ?? AppColors.mutedColor(context),
+      fontWeight: FontWeight.w400,
+    );
+  }
 }

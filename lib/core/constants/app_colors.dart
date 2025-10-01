@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   AppColors._();
-
-  static const Color primary = Color.fromRGBO(229, 9, 20, 1);
-  static const Color secondary = Color.fromRGBO(127, 5, 11, 1);
-  static const Color background = Color.fromARGB(102, 157, 157, 157);
-  static const Color surface = Color.fromARGB(102, 81, 81, 79);
-  static const Color textPrimary = Color(0xFFFFFFFF);
-  static const Color textSecondary = Color.fromARGB(255, 220, 226, 235);
-  static const Color error = Color(0xFFEF4444);
+  static Color primary(BuildContext context) => Color(0xFFdccb99);
+  static Color secondary(BuildContext context) => Color(0xFFcbae58);
+  static Color accentColor(BuildContext context) => Color(0xFFcbae58);
+  static Color mutedColor(BuildContext context) => Color(0xFF1b2d59);
+  static Color textColor(BuildContext context) => Color(0xFF1b2d59);
+  static Color surface(BuildContext context) => Color(0xFFffffff);
+  static Color notificationColor(BuildContext context) => Color(0xFFff4c51);
+  static Color shadow(BuildContext context) => Color(0xFFcbae58);
+  static Color cardColor(BuildContext context) => Colors.grey[100]!;
+  static Color succesful(BuildContext context) => Colors.green;
+  static Color orange(BuildContext context) => Colors.orange;
+  static Color blue(BuildContext context) => Colors.blue;
+  static Color purple(BuildContext context) => Colors.purple;
 }
